@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>fuyohaku</title>
+  <title>fuyohaku — unnecessary whitespace</title>
   <meta name="description" content="A small collection of things I've built, broken, and occasionally finished.">
-  <meta name="theme-color" content="#E6E7E2">
+  <meta name="theme-color" content="#f7f7f3">
   <link rel="canonical" href="https://fuyohaku.com/">
-  <meta property="og:title" content="fuyohaku">
+  <meta property="og:title" content="fuyohaku — unnecessary whitespace">
   <meta property="og:description" content="A small collection of things I've built, broken, and occasionally finished.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fuyohaku.com/">
@@ -15,12 +15,14 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,opsz,wght@0,12..120,500;1,12..120,500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&family=EB+Garamond:ital,opsz,wght@0,12..120,400;0,12..120,500;1,12..120,400;1,12..120,500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: #e6e7e2;
-      --ink: #1c1917;
-      --pencil: #3a5684;
+      --paper: #f7f7f3;
+      --ink: #17202a;
+      --muted: #75808b;
+      --pencil: #7890a4;
+      --rule: #e4e8e8;
       color-scheme: light;
     }
 
@@ -37,8 +39,8 @@
       min-height: 100svh;
       background: var(--paper);
       color: var(--ink);
-      font-family: "EB Garamond", "Iowan Old Style", Palatino, "Palatino Linotype", serif;
-      font-weight: 500;
+      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 400;
       font-optical-sizing: auto;
       text-rendering: optimizeLegibility;
     }
@@ -51,19 +53,61 @@
       letter-spacing: 0.04em;
     }
 
+    .page-shell {
+      width: min(100%, 72rem);
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5.5vw, 4.5rem);
+    }
+
     .hero {
       min-height: 100svh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      width: min(46rem, 100%);
-      padding: clamp(2.5rem, 7vh, 4.5rem) clamp(1.25rem, 6vw, 3rem) clamp(2.5rem, 8vh, 4rem);
-      padding-left: clamp(1.25rem, 9vw, 8.5rem);
+      justify-content: space-between;
+      padding-top: clamp(1.7rem, 3vw, 2.6rem);
+      padding-bottom: clamp(2rem, 5vw, 4rem);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.63rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .menu {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .topbar span a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .menu::before {
+      content: "fuyohaku";
+    }
+
+    .hero-copy {
+      width: 100%;
+      margin: auto 0;
+      padding: clamp(4rem, 13vh, 9rem) 0 clamp(3rem, 10vh, 7rem);
+      text-align: center;
     }
 
     .origin {
       margin: 0;
-      font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+      font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+      color: var(--pencil);
+      letter-spacing: 0.2em;
       line-height: 1.2;
     }
 
@@ -73,10 +117,13 @@
       flex-wrap: nowrap;
       width: max-content;
       max-width: 100%;
-      margin: 1.35rem 0 0 0.16em; /* pull the italic f onto the column */
+      justify-content: center;
+      margin: 1.35rem 0 0 0.16em;
       padding-top: 0.45em;
-      font-size: clamp(1.7rem, 4.8vw, 4rem);
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(2.8rem, 6vw, 4.6rem);
       font-style: italic;
+      font-style: normal;
       line-height: 1;
       letter-spacing: -0.01em;
     }
@@ -103,64 +150,230 @@
     }
 
     h1 {
-      margin: 0.28em 0 0;
-      font-size: clamp(3rem, 8.4vw, 6.25rem);
-      font-weight: 500;
+      margin: 0.22em 0 0;
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(2.7rem, 5.6vw, 4.2rem);
+      font-weight: 400;
       line-height: 1;
-      letter-spacing: -0.03em;
+      letter-spacing: 0.16em;
     }
 
     .about {
-      max-width: 18em;
-      margin: 1.65rem 0 0;
-      font-size: clamp(1.15rem, 1.6vw, 1.3rem);
-      line-height: 1.4;
+      max-width: 22em;
+      margin: 1.8rem auto 0;
+      font-size: clamp(0.78rem, 1vw, 0.95rem);
+      line-height: 1.7;
+      letter-spacing: 0.15em;
+      color: var(--muted);
     }
 
-    .note {
-      width: min(34rem, 100%);
+    .scroll-cue {
+      display: block;
+      margin: 0 auto;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+
+    .projects {
+      padding: clamp(5rem, 10vw, 9rem) 0 clamp(4rem, 7vw, 6rem);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.9rem;
+      color: var(--pencil);
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+    }
+
+    .section-heading h2 {
       margin: 0;
-      padding: 0 clamp(1.25rem, 6vw, 3rem) clamp(5rem, 16vh, 8rem);
-      padding-left: clamp(1.25rem, 9vw, 8.5rem);
-      font-size: clamp(1.125rem, 0.35vw + 1.05rem, 1.25rem);
-      line-height: 1.6;
+      color: #27415a;
+      font-family: "EB Garamond", serif;
+      font-size: clamp(2rem, 3.6vw, 3rem);
+      font-weight: 500;
+      letter-spacing: 0.02em;
     }
 
-    .note p {
+    .view-all {
+      color: var(--muted);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 20rem;
+      padding: 0.75rem;
+      border: 1px solid var(--rule);
+      border-radius: 0.4rem;
+      color: var(--ink);
+      text-decoration: none;
+      transition: border-color 180ms ease, transform 180ms ease;
+    }
+
+    .project-card:hover,
+    .project-card:focus-visible {
+      border-color: #bccbd4;
+      transform: translateY(-3px);
+    }
+
+    .project-image {
+      height: 7rem;
+      border-radius: 0.3rem;
+      background-position: center;
+      background-size: cover;
+      background-color: #d4dfe3;
+    }
+
+    .weather { background-image: url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80"); }
+    .tools { background-image: linear-gradient(135deg, #111b22, #34434b); position: relative; }
+    .tools::after { content: ">_"; position: absolute; inset: 2.2rem auto auto 2.5rem; color: white; font: 1.8rem "DM Mono", monospace; }
+    .notes { background-image: url("https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=80"); }
+    .garden { background-image: url("https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=900&q=80"); }
+    .kotlin { background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"); }
+    .more { background-image: url("https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80"); }
+
+    .project-card h3 {
+      margin: 1rem 0 0.45rem;
+      color: #29445c;
+      font-family: "EB Garamond", serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+    }
+
+    .project-card p {
       margin: 0;
-      max-width: 36em;
-      text-wrap: pretty;
+      max-width: 28em;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.75;
+      letter-spacing: 0.08em;
     }
 
-    .note p + p {
-      margin-top: 1.15em;
+    .project-link {
+      margin-top: auto;
+      padding-top: 1.35rem;
+      color: #334b5e;
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
     }
 
-    .note p:last-child {
-      margin-top: 2.35em;
+    .footerbar {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .footerbar a {
+      color: var(--ink);
+      text-decoration: none;
+      padding-bottom: 0.15rem;
+    }
+
+    .footerbar a:hover,
+    .footerbar a:focus-visible {
+      border-color: var(--pencil);
+      color: var(--pencil);
+    }
+
+    .index {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      white-space: nowrap;
+    }
+
+    .index::before {
+      content: "";
+      width: 1.5rem;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    @media (max-width: 600px) {
+      .hero-copy { padding-left: 0; }
+      .footerbar { align-items: start; flex-direction: column; gap: 0.8rem; }
+      .reading { margin-top: 1rem; }
+      .section-heading { align-items: start; flex-direction: column; gap: 0.8rem; }
+      .project-grid { grid-template-columns: 1fr; }
+      .project-card { min-height: 18rem; }
     }
 
     ::selection {
-      background: #d3dced;
+      background: #d9e1e5;
       color: var(--ink);
     }
   </style>
 </head>
 <body>
   <main>
+    <div class="page-shell">
     <header class="hero">
-      <p class="origin ja" lang="ja">不要な余白</p>
-      <p class="reading" lang="ja-Latn" aria-label="fuyō na yohaku">
-        <span>fuyō</span><span class="join" aria-hidden="true"><svg viewBox="0 0 64 24" focusable="false"><path d="M3 18C14 8 34 3 61 16" fill="none" stroke="currentColor" stroke-width="2.15" stroke-linecap="round"/></svg></span><span>na</span><span class="join" aria-hidden="true"><svg viewBox="0 0 64 24" focusable="false"><path d="M2 16C16 4 42 6 62 19" fill="none" stroke="currentColor" stroke-width="2.15" stroke-linecap="round"/></svg></span><span>yohaku</span>
-      </p>
-      <h1>fuyohaku</h1>
-      <p class="about">A small collection of things I’ve built, broken, and occasionally finished.</p>
+      <nav class="topbar" aria-label="Primary navigation">
+        <a class="menu" href="#about" aria-label="fuyohaku home"></a>
+        <span><a href="#projects">projects</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="#about">about</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="mailto:hello@fuyohaku.com">contact</a></span>
+      </nav>
+      <div class="hero-copy" id="about">
+        <h1>fuyohaku</h1>
+        <p class="origin ja" lang="ja">不要な余白</p>
+        <p class="about">A small collection of things I’ve built, broken, and occasionally finished.</p>
+      </div>
+      <a class="scroll-cue" href="#projects" aria-label="Scroll to projects">↓</a>
     </header>
-    <section class="note">
-      <p><span class="ja" lang="ja">不要な余白</span> literally means “unnecessary empty space” or “unnecessary whitespace.”</p>
-      <p>fuyohaku isn’t actually a Japanese word. It’s a deliberately squashed-together version of <span class="ja" lang="ja">不要な余白</span>.</p>
-      <p>Because apparently even the whitespace was unnecessary.</p>
+    <section class="projects" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">PROJECTS</p><h2 id="projects-title">A few things I’ve made.</h2></div>
+        <a class="view-all" href="#projects">View all&nbsp; →</a>
+      </div>
+      <div class="project-grid" id="projects-grid" aria-live="polite"></div>
     </section>
+    <footer class="footerbar"><span>fuyohaku</span><span><a href="https://github.com/">◉</a>&nbsp;&nbsp; 𝕏&nbsp;&nbsp; ✉</span></footer>
+    </div>
   </main>
+  <script>
+    const fallbackProjects = [
+      { id: 'weather-now', title: 'Weather Now', description: 'A simple, fast weather app with a clean interface and minimal permissions.', image: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80', url: '#projects' },
+      { id: 'homelab-tools', title: 'Homelab Tools', description: 'Utilities and scripts for managing my homelab and infrastructure.', image: 'gradient:#111b22,#34434b', url: '#projects' },
+      { id: 'note-layer', title: 'Note Layer', description: 'A lightweight note-taking app with Markdown and sync.', image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=80', url: '#projects' },
+      { id: 'green-thumb', title: 'Green Thumb', description: 'A small garden tracker for keeping plants (and me) alive.', image: 'https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=900&q=80', url: '#projects' },
+      { id: 'kotlin-experiments', title: 'Kotlin Experiments', description: 'Small playgrounds for trying out new ideas and libraries.', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80', url: '#projects' },
+      { id: 'and-more', title: '... and more', description: 'A few other things in various states of completion.', image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80', url: '#projects' }
+    ];
+    const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+    function renderProjects(projects) {
+      document.getElementById('projects-grid').innerHTML = projects.map((project) => {
+        const image = project.image.startsWith('gradient:') ? `linear-gradient(135deg, ${project.image.slice(9).replace(',', ', ')})` : `url(${project.image})`;
+        const imageClass = project.image.startsWith('gradient:') ? ' tools' : '';
+        return `<a class="project-card" href="${escapeHtml(project.url || '#projects')}"><div class="project-image${imageClass}" style="background-image:${image}"></div><h3>${escapeHtml(project.title)}</h3><p>${escapeHtml(project.description)}</p><span class="project-link">View project&nbsp; →</span></a>`;
+      }).join('');
+    }
+    fetch('/api/projects').then((response) => response.ok ? response.json() : Promise.reject()).then(renderProjects).catch(() => renderProjects(fallbackProjects));
+  </script>
 </body>
 </html>

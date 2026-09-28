@@ -1,27 +1,55 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "fuyohaku",
-  "compatibility_date": "2026-09-27",
-  "assets": {
-    "directory": "./public",
-    "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
-  },
-  "routes": [
-    { "pattern": "fuyohaku.com", "custom_domain": true },
-    { "pattern": "www.fuyohaku.com", "custom_domain": true }
-  ],
-  "observability": {
-    "logs": {
-      "enabled": true,
-      "head_sampling_rate": 1,
-      "invocation_logs": true,
-      "persist": true
-    },
-    "traces": {
-      "enabled": false,
-      "head_sampling_rate": 1,
-      "persist": true
-    }
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "fuyohaku",
+	"main": "src/index.js",
+	"compatibility_date": "2026-09-27",
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS",
+		"run_worker_first": [
+			"/api/*",
+			"/media/*"
+		],
+		"html_handling": "auto-trailing-slash",
+		"not_found_handling": "404-page"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "fuyohaku",
+			"database_id": "2724513b-6044-48b3-bcbf-ae6df09c9b14"
+		},
+	],
+	"routes": [
+		{
+			"pattern": "fuyohaku.com",
+			"custom_domain": true
+		},
+		{
+			"pattern": "www.fuyohaku.com",
+			"custom_domain": true
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "MEDIA",
+			"bucket_name": "fuyohaku-media"
+		}
+	],
+	"observability": {
+		"enabled": false,
+		"head_sampling_rate": 1,
+		"redact_query_string": false,
+		"logs": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+		"invocation_logs": true,
+		"persist": true
+		},
+		"traces": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+		"persist": true
+	}
   }
 }
