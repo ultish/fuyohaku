@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>fuyohaku — unnecessary whitespace</title>
-  <meta name="description" content="A small collection of things I've built, broken, and occasionally finished.">
+  <meta name="description" content="A small collection of things I've built, explored, and occasionally finished.">
   <meta name="theme-color" content="#f7f7f3">
   <link rel="canonical" href="https://fuyohaku.com/">
   <meta property="og:title" content="fuyohaku — unnecessary whitespace">
-  <meta property="og:description" content="A small collection of things I've built, broken, and occasionally finished.">
+  <meta property="og:description" content="A small collection of things I've built, explored, and occasionally finished.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fuyohaku.com/">
   <meta name="twitter:card" content="summary">
@@ -109,6 +109,18 @@
       color: var(--pencil);
       letter-spacing: 0.2em;
       line-height: 1.2;
+    }
+
+    .origin ruby {
+      ruby-position: over;
+    }
+
+    .origin rt {
+      color: var(--muted);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.42em;
+      letter-spacing: 0.08em;
+      line-height: 1;
     }
 
     .reading {
@@ -269,6 +281,22 @@
       letter-spacing: 0.08em;
     }
 
+    .project-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.9rem;
+    }
+
+    .project-label {
+      padding: 0.25rem 0.5rem;
+      border: 1px solid #d7e0e2;
+      border-radius: 999px;
+      color: var(--pencil);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+    }
+
     .project-link {
       margin-top: auto;
       padding-top: 1.35rem;
@@ -341,8 +369,8 @@
       </nav>
       <div class="hero-copy" id="about">
         <h1>fuyohaku</h1>
-        <p class="origin ja" lang="ja">不要な余白</p>
-        <p class="about">A small collection of things I’ve built, broken, and occasionally finished.</p>
+        <p class="origin ja" lang="ja"><ruby>不要<rt>ふよう</rt></ruby>な<ruby>余白<rt>よはく</rt></ruby></p>
+        <p class="about">A small collection of things I’ve built, explored, and occasionally finished.</p>
       </div>
       <a class="scroll-cue" href="#projects" aria-label="Scroll to projects">↓</a>
     </header>
@@ -353,24 +381,25 @@
       </div>
       <div class="project-grid" id="projects-grid" aria-live="polite"></div>
     </section>
-    <footer class="footerbar"><span>fuyohaku</span><span><a href="https://github.com/">◉</a>&nbsp;&nbsp; 𝕏&nbsp;&nbsp; ✉</span></footer>
+    <footer class="footerbar"><span>fuyohaku</span><span><a href="https://github.com/ultish">◉</a>&nbsp;&nbsp; 𝕏&nbsp;&nbsp; ✉</span></footer>
     </div>
   </main>
   <script>
     const fallbackProjects = [
-      { id: 'weather-now', title: 'Weather Now', description: 'A simple, fast weather app with a clean interface and minimal permissions.', image: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80', url: '#projects' },
-      { id: 'homelab-tools', title: 'Homelab Tools', description: 'Utilities and scripts for managing my homelab and infrastructure.', image: 'gradient:#111b22,#34434b', url: '#projects' },
-      { id: 'note-layer', title: 'Note Layer', description: 'A lightweight note-taking app with Markdown and sync.', image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=80', url: '#projects' },
-      { id: 'green-thumb', title: 'Green Thumb', description: 'A small garden tracker for keeping plants (and me) alive.', image: 'https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=900&q=80', url: '#projects' },
-      { id: 'kotlin-experiments', title: 'Kotlin Experiments', description: 'Small playgrounds for trying out new ideas and libraries.', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80', url: '#projects' },
-      { id: 'and-more', title: '... and more', description: 'A few other things in various states of completion.', image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80', url: '#projects' }
+      { id: 'weather-now', title: 'Weather Now', description: 'A simple, fast weather app with a clean interface and minimal permissions.', image: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80', url: '#projects', labels: ['web', 'weather'] },
+      { id: 'homelab-tools', title: 'Homelab Tools', description: 'Utilities and scripts for managing my homelab and infrastructure.', image: 'gradient:#111b22,#34434b', url: '#projects', labels: ['tools', 'infrastructure'] },
+      { id: 'note-layer', title: 'Note Layer', description: 'A lightweight note-taking app with Markdown and sync.', image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=80', url: '#projects', labels: ['web', 'notes'] },
+      { id: 'green-thumb', title: 'Green Thumb', description: 'A small garden tracker for keeping plants (and me) alive.', image: 'https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=900&q=80', url: '#projects', labels: ['web', 'life'] },
+      { id: 'kotlin-experiments', title: 'Kotlin Experiments', description: 'Small playgrounds for trying out new ideas and libraries.', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80', url: '#projects', labels: ['kotlin', 'experiments'] },
+      { id: 'and-more', title: '... and more', description: 'A few other things in various states of completion.', image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80', url: '#projects', labels: ['misc'] }
     ];
     const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
     function renderProjects(projects) {
       document.getElementById('projects-grid').innerHTML = projects.map((project) => {
         const image = project.image.startsWith('gradient:') ? `linear-gradient(135deg, ${project.image.slice(9).replace(',', ', ')})` : `url(${project.image})`;
         const imageClass = project.image.startsWith('gradient:') ? ' tools' : '';
-        return `<a class="project-card" href="${escapeHtml(project.url || '#projects')}"><div class="project-image${imageClass}" style="background-image:${image}"></div><h3>${escapeHtml(project.title)}</h3><p>${escapeHtml(project.description)}</p><span class="project-link">View project&nbsp; →</span></a>`;
+        const labels = (project.labels || []).map((label) => `<span class="project-label">${escapeHtml(label)}</span>`).join('');
+        return `<a class="project-card" href="${escapeHtml(project.url || '#projects')}"><div class="project-image${imageClass}" style="background-image:${image}"></div><h3>${escapeHtml(project.title)}</h3><div class="project-labels">${labels}</div><p>${escapeHtml(project.description)}</p><span class="project-link">View project&nbsp; →</span></a>`;
       }).join('');
     }
     fetch('/api/projects').then((response) => response.ok ? response.json() : Promise.reject()).then(renderProjects).catch(() => renderProjects(fallbackProjects));

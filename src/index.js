@@ -29,6 +29,17 @@ function safeFilename(name) {
   return String(name || "upload").toLowerCase().replace(/[^a-z0-9.-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80) || "upload";
 }
 
+function normalizeLabels(value) {
+  const values = Array.isArray(value) ? value : String(value || "").split(",");
+  return [...new Set(values.map((label) => String(label).trim().replace(/\s+/g, " ")).filter(Boolean))].slice(0, 8);
+}
+
+function parseProject(row) {
+  let labels = [];
+  try { labels = JSON.parse(row.labels || "[]"); } catch { labels = []; }
+  return { ...row, labels: normalizeLabels(labels) };
+}
+
 async function readProject(request) {
   const body = await request.json();
   const project = {
@@ -36,6 +47,7 @@ async function readProject(request) {
     description: String(body.description || "").trim(),
     image: String(body.image || "").trim(),
     url: String(body.url || "#projects").trim(),
+    labels: normalizeLabels(body.labels),
     sort_order: Number.isFinite(Number(body.sort_order)) ? Number(body.sort_order) : 0,
   };
   if (!project.title || !project.description || !project.image) {
@@ -65,8 +77,8 @@ async function api(request, env) {
   }
 
   if (url.pathname === "/api/projects" && request.method === "GET") {
-    const { results } = await env.DB.prepare("SELECT id, title, description, image, url, sort_order FROM projects ORDER BY sort_order ASC, created_at ASC").all();
-    return withCors(json(results));
+    const { results } = await env.DB.prepare("SELECT id, title, description, image, url, labels, sort_order FROM projects ORDER BY sort_order ASC, created_at ASC").all();
+    return withCors(json(results.map(parseProject)));
   }
 
   if (!url.pathname.startsWith("/api/admin/") || (!isAccessAuthenticated(request) && !isLocalRequest(request))) {
@@ -77,8 +89,8 @@ async function api(request, env) {
     if (url.pathname === "/api/admin/projects" && request.method === "POST") {
       const project = await readProject(request);
       const id = crypto.randomUUID();
-      await env.DB.prepare("INSERT INTO projects (id, title, description, image, url, sort_order) VALUES (?, ?, ?, ?, ?, ?)")
-        .bind(id, project.title, project.description, project.image, project.url, project.sort_order).run();
+      await env.DB.prepare("INSERT INTO projects (id, title, description, image, url, labels, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)")
+        .bind(id, project.title, project.description, project.image, project.url, JSON.stringify(project.labels), project.sort_order).run();
       return withCors(json({ id, ...project }, 201));
     }
 
@@ -97,8 +109,8 @@ async function api(request, env) {
     if (request.method === "PATCH") {
       const project = await readProject(request);
       const existing = await env.DB.prepare("SELECT image FROM projects WHERE id = ?").bind(id).first();
-      await env.DB.prepare("UPDATE projects SET title = ?, description = ?, image = ?, url = ?, sort_order = ? WHERE id = ?")
-        .bind(project.title, project.description, project.image, project.url, project.sort_order, id).run();
+      await env.DB.prepare("UPDATE projects SET title = ?, description = ?, image = ?, url = ?, labels = ?, sort_order = ? WHERE id = ?")
+        .bind(project.title, project.description, project.image, project.url, JSON.stringify(project.labels), project.sort_order, id).run();
       const oldKey = mediaKeyFromUrl(existing?.image);
       if (oldKey && oldKey !== mediaKeyFromUrl(project.image) && env.MEDIA) await env.MEDIA.delete(oldKey);
       return withCors(json({ id, ...project }));

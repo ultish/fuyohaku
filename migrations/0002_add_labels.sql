@@ -1,0 +1,1 @@
+ALTER TABLE projects ADD COLUMN labels TEXT NOT NULL DEFAULT '[]';
