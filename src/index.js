@@ -40,6 +40,33 @@ function parseProject(row) {
   return { ...row, labels: normalizeLabels(labels) };
 }
 
+async function listProjects(env) {
+  const { results } = await env.DB.prepare("SELECT id, title, description, image, url, labels, sort_order FROM projects ORDER BY sort_order ASC, created_at ASC").all();
+  return results.map(parseProject);
+}
+
+const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
+
+// Mirrors renderProjects() in public/index.html so crawlers get the cards without running scripts.
+function projectCardHtml(project) {
+  const isGradient = project.image.startsWith("gradient:");
+  const image = isGradient ? `linear-gradient(135deg, ${project.image.slice(9).replace(",", ", ")})` : `url(${project.image})`;
+  const labels = project.labels.map((label) => `<span class="project-label">${escapeHtml(label)}</span>`).join("");
+  return `<a class="project-card" href="${escapeHtml(project.url || "#projects")}"><div class="project-image${isGradient ? " tools" : ""}" style="background-image:${escapeHtml(image)}"></div><h3>${escapeHtml(project.title)}</h3><div class="project-labels">${labels}</div><p>${escapeHtml(project.description)}</p><span class="project-link">View project&nbsp; →</span></a>`;
+}
+
+async function homePage(request, env) {
+  const page = await env.ASSETS.fetch(request);
+  if (!env.DB || !page.ok) return page;
+  let projects;
+  try { projects = await listProjects(env); } catch { return page; }
+  if (!projects.length) return page;
+  const html = projects.map(projectCardHtml).join("");
+  return new HTMLRewriter()
+    .on("#projects-grid", { element(element) { element.setInnerContent(html, { html: true }); } })
+    .transform(page);
+}
+
 async function readProject(request) {
   const body = await request.json();
   const project = {
@@ -77,8 +104,7 @@ async function api(request, env) {
   }
 
   if (url.pathname === "/api/projects" && request.method === "GET") {
-    const { results } = await env.DB.prepare("SELECT id, title, description, image, url, labels, sort_order FROM projects ORDER BY sort_order ASC, created_at ASC").all();
-    return withCors(json(results.map(parseProject)));
+    return withCors(json(await listProjects(env)));
   }
 
   if (!url.pathname.startsWith("/api/admin/") || (!isAccessAuthenticated(request) && !isLocalRequest(request))) {
@@ -125,7 +151,12 @@ async function api(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.hostname === "www.fuyohaku.com") {
+      url.hostname = "fuyohaku.com";
+      return Response.redirect(url.toString(), 301);
+    }
     if (url.pathname.startsWith("/api/")) return api(request, env);
+    if (url.pathname === "/" && request.method === "GET") return homePage(request, env);
     if (url.pathname.startsWith("/media/") && env.MEDIA) {
       const key = decodeURIComponent(url.pathname.slice("/media/".length));
       const object = await env.MEDIA.get(key);
