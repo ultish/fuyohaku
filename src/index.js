@@ -57,14 +57,28 @@ function projectCardHtml(project) {
 
 async function homePage(request, env) {
   const page = await env.ASSETS.fetch(request);
-  if (!env.DB || !page.ok) return page;
-  let projects;
-  try { projects = await listProjects(env); } catch { return page; }
-  if (!projects.length) return page;
-  const html = projects.map(projectCardHtml).join("");
-  return new HTMLRewriter()
-    .on("#projects-grid", { element(element) { element.setInnerContent(html, { html: true }); } })
-    .transform(page);
+  if (!page.ok) return page;
+  const rewriter = new HTMLRewriter();
+  const lat = request.cf?.latitude;
+  const lon = request.cf?.longitude;
+  if (lat != null && lon != null) {
+    rewriter.on("#page-fog", {
+      element(element) {
+        element.setAttribute("data-lat", String(lat));
+        element.setAttribute("data-lon", String(lon));
+      },
+    });
+  }
+  if (env.DB) {
+    try {
+      const projects = await listProjects(env);
+      if (projects.length) {
+        const html = projects.map(projectCardHtml).join("");
+        rewriter.on("#projects-grid", { element(element) { element.setInnerContent(html, { html: true }); } });
+      }
+    } catch { /* keep the static cards */ }
+  }
+  return rewriter.transform(page);
 }
 
 async function readProject(request) {

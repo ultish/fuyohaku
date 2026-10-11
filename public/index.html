@@ -6,6 +6,21 @@
   <title>fuyohaku — unnecessary whitespace</title>
   <meta name="description" content="A small collection of things I've built, explored, and occasionally finished.">
   <meta name="theme-color" content="#f7f7f3">
+  <script>
+    (function () {
+      var named = { night: 2, dawn: 7, day: 12, dusk: 17.5 };
+      var value = new URLSearchParams(location.search).get("sky");
+      var hour = value == null ? NaN : (value in named ? named[value] : Number(value));
+      if (!Number.isFinite(hour) || hour < 0 || hour >= 24) {
+        var now = new Date();
+        hour = now.getHours() + now.getMinutes() / 60;
+      }
+      if (hour >= 18 || hour < 5) {
+        document.documentElement.dataset.theme = "dark";
+        document.querySelector('meta[name="theme-color"]').content = "#141a24";
+      }
+    })();
+  </script>
   <link rel="canonical" href="https://fuyohaku.com/">
   <meta property="og:title" content="fuyohaku — unnecessary whitespace">
   <meta property="og:description" content="A small collection of things I've built, explored, and occasionally finished.">
@@ -18,13 +33,22 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&family=EB+Garamond:ital,opsz,wght@0,12..120,400;0,12..120,500;1,12..120,400;1,12..120,500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: #f7f7f3;
-      --ink: #17202a;
-      --muted: #75808b;
-      --pencil: #7890a4;
-      --rule: #e4e8e8;
       color-scheme: light;
+      --paper: light-dark(#f7f7f3, #141a24);
+      --ink: light-dark(#17202a, #e8e4da);
+      --muted: light-dark(#75808b, #c5ced6);
+      --pencil: light-dark(#7890a4, #b7cbe0);
+      --rule: light-dark(#e4e8e8, #2c3646);
+      --heading: light-dark(#27415a, #d5dee8);
+      --card-title: light-dark(#29445c, #d5dee8);
+      --card-link: light-dark(#334b5e, #c9d4e0);
+      --label-line: light-dark(#d7e0e2, #3a4658);
+      --card-hover: light-dark(#bccbd4, #5c6d82);
+      --photo: light-dark(#d4dfe3, #243044);
+      --selection: light-dark(#d9e1e5, #3a4c62);
     }
+
+    :root[data-theme="dark"] { color-scheme: dark; }
 
     * { box-sizing: border-box; }
 
@@ -51,6 +75,21 @@
       font-weight: 500;
       font-synthesis: none;
       letter-spacing: 0.04em;
+    }
+
+    #page-fog {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      pointer-events: none;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
     }
 
     .page-shell {
@@ -208,7 +247,7 @@
 
     .section-heading h2 {
       margin: 0;
-      color: #27415a;
+      color: var(--heading);
       font-family: "EB Garamond", serif;
       font-size: clamp(2rem, 3.6vw, 3rem);
       font-weight: 500;
@@ -243,7 +282,7 @@
 
     .project-card:hover,
     .project-card:focus-visible {
-      border-color: #bccbd4;
+      border-color: var(--card-hover);
       transform: translateY(-3px);
     }
 
@@ -252,7 +291,7 @@
       border-radius: 0.3rem;
       background-position: center;
       background-size: cover;
-      background-color: #d4dfe3;
+      background-color: var(--photo);
     }
 
     .weather { background-image: url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80"); }
@@ -265,7 +304,7 @@
 
     .project-card h3 {
       margin: 1rem 0 0.45rem;
-      color: #29445c;
+      color: var(--card-title);
       font-family: "EB Garamond", serif;
       font-size: 1.2rem;
       font-weight: 500;
@@ -290,7 +329,7 @@
 
     .project-label {
       padding: 0.25rem 0.5rem;
-      border: 1px solid #d7e0e2;
+      border: 1px solid var(--label-line);
       border-radius: 999px;
       color: var(--pencil);
       font-size: 0.58rem;
@@ -300,7 +339,7 @@
     .project-link {
       margin-top: auto;
       padding-top: 1.35rem;
-      color: #334b5e;
+      color: var(--card-link);
       font-size: 0.68rem;
       letter-spacing: 0.09em;
     }
@@ -354,12 +393,13 @@
     }
 
     ::selection {
-      background: #d9e1e5;
+      background: var(--selection);
       color: var(--ink);
     }
   </style>
 </head>
 <body>
+  <canvas id="page-fog" aria-hidden="true"></canvas>
   <main>
     <div class="page-shell">
     <header class="hero">
@@ -404,5 +444,6 @@
     }
     fetch('/api/projects').then((response) => response.ok ? response.json() : Promise.reject()).then(renderProjects).catch(() => renderProjects(fallbackProjects));
   </script>
+  <script type="module" src="/page-fog.js?v=13"></script>
 </body>
 </html>

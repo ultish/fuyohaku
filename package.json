@@ -3,9 +3,13 @@
   "private": true,
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "build:fog": "esbuild src/page-fog.js --bundle --minify --format=esm --target=es2022 --outfile=public/page-fog.js"
   },
   "devDependencies": {
     "wrangler": "^4.141.0"
+  },
+  "dependencies": {
+    "shaders": "^4.0.4"
   }
 }
