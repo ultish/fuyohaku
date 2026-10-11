@@ -104,6 +104,8 @@ if (!(canvas instanceof HTMLCanvasElement) || reducedMotion || !isWebGPUSupporte
   addEventListener("pagehide", () => clearInterval(clock), { once: true });
 } else {
   const sky = skyAt();
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
   try {
     const shader = await createShader(canvas, {
       components: [{

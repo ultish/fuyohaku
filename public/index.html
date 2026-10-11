@@ -82,8 +82,8 @@
       inset: 0;
       z-index: 0;
       display: block;
-      inline-size: 100%;
-      block-size: 100%;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
     }
 
@@ -444,6 +444,6 @@
     }
     fetch('/api/projects').then((response) => response.ok ? response.json() : Promise.reject()).then(renderProjects).catch(() => renderProjects(fallbackProjects));
   </script>
-  <script type="module" src="/page-fog.js?v=13"></script>
+  <script type="module" src="/page-fog.js?v=14"></script>
 </body>
 </html>
